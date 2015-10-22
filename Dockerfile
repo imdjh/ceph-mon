@@ -34,5 +34,7 @@ VOLUME ["/etc/ceph","/var/lib/ceph"]
 # Expose the ceph monitor port (6789, by default)
 EXPOSE 6789
 
+RUN chmod +x /entrypoint.sh
+
 # Execute monitor as the entrypoint
 ENTRYPOINT ["/entrypoint.sh"]
