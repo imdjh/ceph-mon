@@ -36,5 +36,7 @@ EXPOSE 6789
 
 RUN chmod +x /entrypoint.sh
 
+RUN rm -rf /etc/localtime && ln -s /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+
 # Execute monitor as the entrypoint
 ENTRYPOINT ["/entrypoint.sh"]
