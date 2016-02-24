@@ -22,7 +22,7 @@
 #        - /etc/ceph/monmap (the current monitor map)
 #
 # VERSION 0.0.2
-FROM index.alauda.cn/alexander/ceph-base:0.94.5
+FROM index.alauda.cn/alexander/ceph-base:0.94.6
 MAINTAINER Seán C McCord "ulexus@gmail.com"
 
 # Add bootstrap script
