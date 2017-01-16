@@ -1,4 +1,4 @@
-FROM index.alauda.cn/alexander/ceph-base:10.2.5
+FROM registry.alauda.cn/imdjh/ceph-base:jewel
 
 # Add bootstrap script
 ADD entrypoint.sh /entrypoint.sh
