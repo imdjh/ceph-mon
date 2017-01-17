@@ -15,6 +15,9 @@ if [ ${MON_IP_AUTO_DETECT} -eq 1 ]; then
   if [ -z "$MON_IP" ]; then
     MON_IP=$(ip -4 -o a | awk '/eth/ { sub ("/..", "", $4); print $4 }')
   fi
+  if [ -z "$MON_IP" ]; then
+    MON_IP=$(ip -4 -o a | awk '/en/ { sub ("/..", "", $4); print $4 }')
+  fi
 elif [ ${MON_IP_AUTO_DETECT} -eq 4 ]; then
   MON_IP=$(ip -4 -o a | awk '/eth/ { sub ("/..", "", $4); print $4 }')
 elif [ ${MON_IP_AUTO_DETECT} -eq 6 ]; then
