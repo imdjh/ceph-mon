@@ -11,26 +11,23 @@ set -e
 #   docker run -e MON_IP=192.168.101.50 -e MON_IP_AUTO_DETECT=1 ceph/mon
 
 if [ ${MON_IP_AUTO_DETECT} -eq 1 ]; then
-  MON_IP=$(ip -6 -o a | grep scope.global | awk '/eth/ { sub ("/..", "", $4); print $4 }' | head -n1)
+  MON_IP=$(ip -6 -o a | grep scope.global | awk '/eth/ { sub ("/..", "", $4); print $4 }' | head -n1 | sed 's|\(.*\)/.*|\1|g')
   if [ -z "$MON_IP" ]; then
-    MON_IP=$(ip -4 -o a | awk '/eth/ { sub ("/..", "", $4); print $4 }')
+    MON_IP=$(ip -4 -o a | awk '/eth/ { sub ("/..", "", $4); print $4 } | sed 's|\(.*\)/.*|\1|g'')
   fi
   if [ -z "$MON_IP" ]; then
-    MON_IP=$(ip -4 -o a | awk '/en/ { sub ("/..", "", $4); print $4 }')
+    MON_IP=$(ip -4 -o a | awk '/en/ { sub ("/..", "", $4); print $4 }' | sed 's|\(.*\)/.*|\1|g')
   fi
 elif [ ${MON_IP_AUTO_DETECT} -eq 4 ]; then
-  MON_IP=$(ip -4 -o a | awk '/eth/ { sub ("/..", "", $4); print $4 }')
+  MON_IP=$(ip -4 -o a | awk '/eth/ { sub ("/..", "", $4); print $4 }' | sed 's|\(.*\)/.*|\1|g')
 elif [ ${MON_IP_AUTO_DETECT} -eq 6 ]; then
-  MON_IP=$(ip -6 -o a | grep scope.global | awk '/eth/ { sub ("/..", "", $4); print $4 }' | head -n1)
+  MON_IP=$(ip -6 -o a | grep scope.global | awk '/eth/ { sub ("/..", "", $4); print $4 }' | head -n1 | sed 's|\(.*\)/.*|\1|g')
 fi
 
 if [ ! -n "$MON_IP" ]; then
    echo "ERROR- MON_IP must be defined as the IP address of the monitor"
    exit 1
 fi
-
-# Remove network mask
-MON_IP=$(echo $MONIP | sed 's|\(.*\)/.*|\1|g')
 
 if [ ! -e /etc/ceph/${CLUSTER}.conf ]; then
   ### Bootstrap the ceph cluster
