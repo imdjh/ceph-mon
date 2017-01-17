@@ -29,6 +29,8 @@ if [ ! -n "$MON_IP" ]; then
    exit 1
 fi
 
+# Remove network mask
+MON_IP=$(echo $MONIP | sed 's|\(.*\)/.*|\1|g')
 
 if [ ! -e /etc/ceph/${CLUSTER}.conf ]; then
   ### Bootstrap the ceph cluster
